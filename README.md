@@ -1,1 +1,0 @@
-# ArquitecturaTP2
