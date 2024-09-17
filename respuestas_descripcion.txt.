@@ -1,16 +1,30 @@
-Victoira Lynch
+Victoria Lynch
 vlynch@udesa.edu.ar
 
 Fase 1:
-En la fase 1, la bomba esperaba una cadena de texto específica. Analizando el código ensamblador con gdb, se identificó que se comparaba el input del usuario con el texto en la dirección de memoria 0x4c5158. Si el input coincidía, la fase se desactivaba; de lo contrario, la bomba explotaba.
-Utilizando gdb, y siguiendo el código paso a paso, se encontró la cadena correcta en la dirección 0x4c5158 y se ingresó despues del read_line para desactivar la fase.
+En la fase 1, la bomba esperaba una cadena de texto específica.
+Analizando el código ensamblador con gdb, se identificó que se comparaba el input del usuario con el texto en la dirección de memoria 0x4c5158. Si el input coincidía, la fase se desactivaba; de lo contrario, la bomba explotaba.
+Utilizando gdb, y siguiendo el código paso a paso, se encontró la cadena correcta en la dirección 0x4c5158 y se ingresó después del read_line para desactivar la fase.
 
 
 Fase 2:
-En la fase 2, el código tomaba tres números enteros del input del usuario, los convertía y realizaba operaciones entre ellos, específicamente XOR y desplazamiento aritmético. Después, comparaba el resultado con un tercer valor calculado. Si la comparación fallaba o los números no cumplían con la condición establecida, la bomba explotaba.
+En la fase 2, el código tomaba tres números enteros del input del usuario, los convertía y realizaba operaciones entre ellos, específicamente XOR y desplazamiento aritmético. Después, comparaba el resultado con un tercer valor calculado. 
+Entraba en la función misterio que establecía que si el tercer número no era negativo, la bomba debía explotar.
+Si la comparación fallaba o los números no cumplían con la condición establecida, la bomba explotaba.
 
 Fase 3:
+En la fase 3, se detectó que el input debía ser un string y un número. Se encontro el formato en un registro que decía "%s %d".
+El código encontraba una palabra, "engringarse" y en la función cuenta se realizaban operaciones con el valor ascci de cada caracter de la palabra "engringarse" hasta concluir con un valor.
+Ese valor se le pasaba como indice a un array qeu contení todas las palabras del .txt.
+El input final era ese número y la palabra que corespondía al valor que estaba en ese índice.
 
+
+Fase 4:
+Luego de analizar el código de assembly de la fase 4 pude concluír que el input debía ser un string de 6 caracteres.
+Además el compare del input se hacía con una palabra hardcodeada en la memoria que luego de revisar los registros resultó ser 'depila'.
+El código hacia un scan en el input, detectaba que eran 6 letras y procedía a iterear caracter por caracter realizando operaciones hasta resultar en otro caracter. Esas transforaciones me debían resultar en la palabra 'depila' para que pase el compare final.
+En cada iteración hacía un and entre el ascci del caracter ingresado con 0xF. Luego se pasaba ese índice para buscar en un array otro valor que resultaba ser el número ascci de otro caracter.
+Lo que hice para decifrar el input fue probar muchas letras, ver a que otra letra se convertían hasta encontrar las letras que al ser transformadas se convertían en las letras que estan en el string 'depila'.
 
 
 
